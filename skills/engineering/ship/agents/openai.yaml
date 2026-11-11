@@ -1,0 +1,5 @@
+interface:
+  display_name: "Ship"
+  short_description: "Close an effort: Architecture doc, spec shipped, Scratch deleted"
+policy:
+  allow_implicit_invocation: false

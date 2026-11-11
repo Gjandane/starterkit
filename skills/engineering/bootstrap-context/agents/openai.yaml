@@ -1,0 +1,5 @@
+interface:
+  display_name: "Bootstrap Context"
+  short_description: "Write missing Context docs from an existing codebase"
+policy:
+  allow_implicit_invocation: false

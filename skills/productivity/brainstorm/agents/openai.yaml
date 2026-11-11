@@ -1,0 +1,5 @@
+interface:
+  display_name: "Brainstorm"
+  short_description: "Widen before narrowing: batches of ideas, kept in an ideas file"
+policy:
+  allow_implicit_invocation: false

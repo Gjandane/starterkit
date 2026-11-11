@@ -1,0 +1,5 @@
+interface:
+  display_name: "To Spec"
+  short_description: "Turn a done Interview log into a spec file"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,15 @@
+{
+  "name": "starterkit",
+  "owner": {
+    "name": "gjandane",
+    "url": "https://github.com/gjandane"
+  },
+  "description": "Marketplace for the starterkit plugin: interviews, spec and ticket flows, TDD, code review and domain modelling.",
+  "plugins": [
+    {
+      "name": "starterkit",
+      "source": "./",
+      "description": "Interviews, spec/ticket flows, TDD, code review, domain modelling and more."
+    }
+  ]
+}

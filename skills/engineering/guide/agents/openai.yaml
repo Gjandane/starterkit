@@ -1,0 +1,5 @@
+interface:
+  display_name: "Guide"
+  short_description: "Find the right skill, or ask how your repo works"
+policy:
+  allow_implicit_invocation: false

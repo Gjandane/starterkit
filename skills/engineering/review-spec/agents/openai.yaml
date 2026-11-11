@@ -1,0 +1,5 @@
+interface:
+  display_name: "Review Spec"
+  short_description: "Fresh-eyes review of a draft spec: Cut, Gaps, Conflicts"
+policy:
+  allow_implicit_invocation: false
