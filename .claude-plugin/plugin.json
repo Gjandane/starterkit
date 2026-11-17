@@ -1,6 +1,6 @@
 {
   "name": "starterkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Interviews, spec/ticket flows, TDD, code review, domain modelling and more.",
   "author": {
     "name": "gjandane",
