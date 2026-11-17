@@ -3,7 +3,7 @@ name: interview
 description: Interview the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'interview' trigger phrases.
 ---
 
-Inside a repo, start with the Orient step: read [ORIENT.md](./ORIENT.md) and follow it before round 1.
+Inside a repo, start with the Orient step unless the invoking skill says to skip it: read [ORIENT.md](./ORIENT.md) and follow it before round 1.
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
 
@@ -52,7 +52,7 @@ Keep an Interview log unless the invoking skill says to write none. It holds the
 
 ## Docs as you go
 
-Load the `domain-modeling` skill. When an answer settles a decision that is hard to reverse, surprising without context and a real trade-off, write the ADR right then. When an answer resolves a term, add it to the glossary right then.
+Skip this section when the invoking skill says to write no Context docs. Otherwise, load the `domain-modeling` skill. When an answer settles a decision that is hard to reverse, surprising without context and a real trade-off, write the ADR right then. When an answer resolves a term, add it to the glossary right then.
 
 ## Done
 

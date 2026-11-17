@@ -70,7 +70,7 @@ The route most work travels. You have an idea and want it built.
 
    Either way the code is built by driving **`/tdd`** (one red-green slice at a time) and closed out with **`/code-review`**, a two-axis review (Standards and Spec) of the diff. Reach for `/tdd` on its own to build a behaviour test-first, and `/code-review` on its own to review any branch or PR against a fixed point. When the work goes up as a pull request, **`/pr`** shapes the body. It is model-invoked, so the agent reaches for it whenever it writes one. Small work needs no spec: `/builder` takes a plain description too.
 8. **`/retro`** (optional) looks back over the build and suggests changes to the agent's **environment**, not the code: navigation pointers, automated checks, coding standards, steering files, tooling. Run it in the session it looks back on, before clearing.
-9. **`/ship`** closes the effort in one commit: it updates the Architecture doc to what now exists, marks the spec `shipped` and deletes Scratch.
+9. **`/ship`** closes the effort in one commit: it updates the Architecture doc to what now exists, marks the spec `shipped` and deletes Scratch. A shipped effort is a good moment for `/larper` (see Standalone).
 
 Keep the interview, `/to-spec`, `/review-spec` and `/to-tickets` in **one unbroken session**: the Rundown tags them "same session", so they build on the same thinking. When the **smart zone** runs out before `/to-tickets`, start a fresh session and resume from the Interview log (see Phase boundaries).
 
@@ -101,12 +101,13 @@ Two model-invoked references that run beneath the other skills, each the single 
 Off the main flow entirely.
 
 - **`/interview-me`**: the same interview as `/interview-with-docs`, but it writes no Interview log. For when you are not in a repo (a plan, a design, a piece of writing). In a repo use `/interview-with-docs`.
-- **`/interview`**: the interview primitive itself. `/interview-me` and `/interview-with-docs` are the two named ways in, and `/triage`, `/wayfinder` and `/improve-codebase-architecture` run it internally. Reach for it directly only when you want the interview with no wrapper.
+- **`/interview`**: the interview primitive itself. `/interview-me` and `/interview-with-docs` are the two named ways in, and `/triage`, `/wayfinder`, `/improve-codebase-architecture` and `/larper` run it internally. Reach for it directly only when you want the interview with no wrapper.
 - **`/prototype`**: a throwaway program that answers one design question (does this state model feel right, what should this UI look like). The answer folds into the real code; the prototype is kept as a **primary source** on a throwaway branch out of main.
 - **`/research`**: delegate reading legwork to a **background agent**. It investigates a question against **primary sources** and leaves a cited Markdown file. Take the file into the main flow at `/brainstorm` or `/interview-with-docs`.
 - **`/to-questionnaire`**: for when the thing blocking you is in someone else's head. It interviews you about the send (who, what you need back) and writes them a questionnaire. What comes back is material for `/interview-with-docs` or `/to-spec`.
 - **`/wizard`**: for steps only a **human** can take (credentials, CI secrets, a third-party dashboard, a one-off cutover). It generates an interactive bash script that opens each URL and captures each value. Model-invoked, so the agent reaches for it when it hits a wall only you can pass.
 - **`/wait-what`**: the corrective for a message that did not land. The agent re-pitches what it just said with the context you were missing, in plain English, in the `GLOSSARY.md` vocabulary.
+- **`/larper`**: draft a short LinkedIn post about the repo for readers who do not code: what it does, the problem it solves, and the **Insights** you approve. A short interview settles the reader, the angle and the Insights first. It prints the draft in chat and never posts.
 - **`/handoff`**: write a portable markdown file so another session can pick up the work.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`**: the reference for writing documents agents consume: skills, `AGENTS.md`, pointed-at docs.

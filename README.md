@@ -128,6 +128,7 @@ Skills split by who can start them. **User-invoked** skills run only when you ty
 - **[brainstorm](./skills/productivity/brainstorm/SKILL.md).** 3 to 5 ideas per turn, saved in a resumable ideas file. Ends with a picked list and a pointer to the interview.
 - **[interview-me](./skills/productivity/interview-me/SKILL.md).** Get interviewed about a plan or design until every open decision is settled. Saves no files.
 - **[handoff](./skills/productivity/handoff/SKILL.md).** Compact the current conversation into a handoff document so another agent can continue.
+- **[larper](./skills/productivity/larper/SKILL.md).** Draft a short LinkedIn post about your repo for readers who don't code, after a short interview on what it says and which insights go in. Printed in chat, never posted.
 - **[teach](./skills/productivity/teach/SKILL.md).** Learn a new skill or concept over several sessions, with the current folder as the lesson workspace.
 - **[to-questionnaire](./skills/productivity/to-questionnaire/SKILL.md).** Turn a decision only someone else can make into a Markdown questionnaire for them to fill in.
 - **[wait-what](./skills/productivity/wait-what/SKILL.md).** Run it when a reply doesn't make sense. The agent explains again with the context you were missing, using your glossary's words.

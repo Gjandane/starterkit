@@ -1,0 +1,5 @@
+interface:
+  display_name: "Larper"
+  short_description: "Draft a plain-language LinkedIn post about this repo"
+policy:
+  allow_implicit_invocation: false
