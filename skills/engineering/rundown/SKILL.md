@@ -1,13 +1,12 @@
 ---
 name: rundown
-description: "Write a checklist of copy-paste commands for a whole effort, in run order and grouped into waves that can run in parallel, rebuilt from ticket status on every run. Prints the next unchecked step."
-disable-model-invocation: true
+description: "Rundown: use when the user asks to refresh or rebuild the effort's checklist of commands. Rebuilds from ticket status and prints the next unchecked step."
 argument-hint: "[effort path, e.g. .scratch/<effort>]"
 ---
 
 # Rundown
 
-Turn the effort's tickets into `.scratch/<effort>/rundown.md`: a checklist of commands in run order, start to finish, that the user pastes one step or one wave at a time. Mechanical work. Tickets in, file out. Ask nothing beyond the effort path, pick no tier, give no advice.
+Turn the effort's tickets into `.scratch/<effort>/rundown.md`: a checklist of commands in run order, start to finish, that the user pastes one step or one wave at a time. Mechanical work. Tickets in, file out. Pick no tier, give no advice.
 
 Rebuild the whole file on every run. Ticket status is the only source of truth; a box the user ticked by hand is overwritten.
 
@@ -15,11 +14,19 @@ Rebuild the whole file on every run. Ticket status is the only source of truth; 
 
 ### 1. Pick the effort
 
-Take the path from the user. Without one, list the folders in `.scratch/`: one folder is the effort, several means ask which, none means tell the user to run `/interview-with-docs` first.
+Choose the entry path from what the user asked this turn:
+
+- **Requested.** The user asked for the rundown, by typing `/rundown` or in words. Take the effort path from the user. Without one, list the folders in `.scratch/`: one folder is the effort, several means ask which, none means tell the user to run `/interview-with-docs` first. Create or overwrite its `rundown.md`, including a hand-written file.
+- **Guarded.** Every other load, including a chain after a ticket change, follows these guards in order. Ask nothing; on any failed guard, skip silently and return to the caller without writing a file or printing a next step.
+  1. Take the changed ticket supplied by the caller. Read its `**Scratch:**` line as the effort's folder. With no pointer, a local ticket uses the effort folder containing its `issues/` folder; a real-tracker ticket is skipped. Use these exact pointers, never a search of issue text.
+  2. Open only that effort's existing `rundown.md`. Its first line must be `# Rundown: <effort>` and the next line must start with `Harness:`. Leave a missing file or any other shape alone.
+  3. Read the `Source:` line immediately below `Harness:`. It must name a readable issues folder on a local tracker or a parent issue or spec reference on a real tracker. Use that source for the tickets in step 2. A missing, ambiguous or unreadable source is a failed guard.
+
+The guarded path updates only this file. Keep the refreshed file uncommitted. On a real tracker it stays local; post nothing.
 
 ### 2. Read
 
-- **Tickets.** On a local tracker, `.scratch/<effort>/issues/*.md`. On a real tracker, the parent issue or spec reference the user gives; read its child issues, their `## Run` sections and their blocking links through the operations in `docs/agents/issue-tracker.md`.
+- **Tickets.** On the requested path, use `.scratch/<effort>/issues/*.md` on a local tracker, or the parent issue or spec reference the user gives on a real tracker. On the guarded path, use only the existing file's `Source:`. Read the source's tickets, their `## Run` sections and their blocking links through the operations in `docs/agents/issue-tracker.md`. Record that same source in the generated file.
 - **Tier table.** `docs/agents/model-tiers.md`, the column of the harness you are running in.
 - **Base branch.** On Claude Code, the branch checked out now (`git branch --show-current`).
 - **Nothing else.** Skip the spec body and the code. The one exception: the section headings of `.scratch/<effort>/ideas.md`, to see whether it has a Picked section.
@@ -56,6 +63,7 @@ Sections in this order, which is the order the user runs them: each under a `##`
 - The note appears only for a ticket with Constraints (state them in a clause), a step only a human can do, or a Where of `desktop` (say the plugin must be installed in the desktop app, see the README Install section). A step with none of these has no note.
 - The command goes in its own code block, one command per block.
 - A done step is `[x]`.
+- Only steps with a ticket tick automatically from its status. Spec steps still collapse to done once build tickets exist; Retro and Ship stay unchecked.
 - A **build step** is the step of one build ticket, Prerequisite or not. Its command runs the `builder` skill with the ticket reference (file path locally, issue number on a real tracker), then the **completion sentence** on the same line, exactly: "Finish every requirement in the ticket, then tick every checkbox in the ticket. You can use subagents to finish the ticket."
 - Steps with no ticket (spec steps, the alternative, Retro, Ship) show the title and the model name only, plus Ship's `low` effort. Drop the fields they do not have.
 - Tags ("interview", "same session", "optional", "fresh session") close the line after the note, in parentheses.
@@ -69,15 +77,15 @@ A build step on Claude Code:
   ```
 ````
 
-**Title and harness line.**
+**Title, harness and source lines.** Keep these three lines adjacent, with no blank lines between them:
 
 ```markdown
 # Rundown: <effort>
-
 Harness: <Claude Code or Codex>. Commands in its syntax, model names from its column of the tier table.
+Source: <issues folder path, or parent issue or spec reference>
 ```
 
-With no tier table, say "tiers" in place of "model names" in that line and add the setup line right below it.
+Use the issues folder path on a local tracker, or the parent issue or spec reference on a real tracker. With no tier table, say "tiers" in place of "model names" in the harness line and add the setup line below the source line.
 
 **Rules.** A short list:
 

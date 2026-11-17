@@ -54,7 +54,7 @@ I kept upstream's folder layout and most skill names, so you can diff the two re
 - **brainstorm.** The interview narrows from its first question, which is the wrong mode when you don't know what you want yet. brainstorm offers 3 to 5 ideas per turn and saves them in an ideas file you can come back to. It ends with a list of picked ideas for the interview.
 - **bootstrap-context.** A repo that never used these skills has no glossary and no architecture doc, so the interview has nothing to read. This skill writes those docs from the existing code. You correct its list of modules before it starts. It never overwrites a doc that already exists.
 - **review-spec.** The agent that wrote a spec can't see its own gaps. review-spec starts two fresh agents that never saw the interview. They report what to cut, what's missing and what contradicts itself, as one numbered list. You accept findings by number.
-- **rundown.** Upstream left me rereading tickets to work out the next command. rundown writes a checklist of copy-paste commands for the whole effort and prints the next unchecked one. It rebuilds the list from ticket status every time you run it.
+- **rundown.** Upstream left me rereading tickets to work out the next command. rundown writes a checklist of copy-paste commands for the whole effort and prints the next unchecked one. It rebuilds the list from ticket status every time you run it, and the skills that change tickets (`to-tickets`, `wayfinder`, `builder`, `builder-spec`) refresh an existing generated checklist for you, so you stop rerunning it after every build.
 - **ship.** Upstream had no step that closes a piece of work, so the docs drifted away from the code after every build. ship updates the architecture doc to match what was built, marks the spec as shipped and deletes the scratch folder. All of that lands in one commit, and it asks every question before it writes anything.
 
 ### Changed skills
@@ -104,13 +104,13 @@ Skills split by who can start them. **User-invoked** skills run only when you ty
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md).** Break a plan, spec or conversation into thin end-to-end tickets. Each lists what blocks it and how to run it (model tier, effort, where, verify steps). Written to a local file or to a real tracker with native blocking links.
 - **[builder](./skills/engineering/builder/SKILL.md).** Build one ticket. Prints its run line, drives `tdd` under the ticket's constraints, runs `code-review` and the verify steps before committing, and leaves build notes for `ship`.
 - **[builder-spec](./skills/engineering/builder-spec/SKILL.md).** Build a whole spec on one branch. Sub-agents build every unblocked ticket in parallel under the `builder` rules. A stopped ticket stays open while the rest continue. Ends with `code-review` and a list of open tickets.
-- **[rundown](./skills/engineering/rundown/SKILL.md).** Write a checklist of copy-paste commands for a whole effort from ticket status, in run order and grouped into waves that can run in parallel, using the commands and model names of the tool you're in. Prints the next unchecked step.
 - **[ship](./skills/engineering/ship/SKILL.md).** Close a finished effort in one commit. Updates the architecture doc, marks the spec shipped, deletes scratch.
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md).** Plan work too big for one session as a map of decision tickets, then settle them one at a time.
 - **[retro](./skills/engineering/retro/SKILL.md).** After a session, suggest fixes to the agent's setup (navigation, checks, coding standards, steering files, tools), most severe first.
 
 **Model-invoked**
 
+- **[rundown](./skills/engineering/rundown/SKILL.md).** Create or rebuild the effort's checklist on request and print the next unchecked step. Skills that change a ticket (`to-tickets`, `wayfinder`, `builder`, `builder-spec`) refresh an existing generated checklist; it never creates one unasked.
 - **[prototype](./skills/engineering/prototype/SKILL.md).** Build throwaway code to answer one design question. Either one HTML file for logic and state, or several very different UI versions you can switch between.
 - **[diagnosing-bugs](./skills/engineering/diagnosing-bugs/SKILL.md).** A strict loop for hard bugs and slowdowns. First build a command that reliably shows the bug, then shrink it, list causes, test them one by one, fix, and keep the repro as a test.
 - **[research](./skills/engineering/research/SKILL.md).** A background agent reads primary sources for a question and saves a Markdown file with every claim linked to its source.

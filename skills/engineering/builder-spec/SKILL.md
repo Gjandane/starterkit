@@ -43,7 +43,7 @@ These are written for the implementer sub-agent. Pass them in the brief.
 - A contradiction outside the ticket's path, or a stale doc while the ticket is still buildable: note it for Build notes and carry on.
 - The ticket cannot be built without breaking an ADR or a Rule across modules, or its design is wrong: stop. Commit nothing, write no Build notes, and report stopped with the contradiction and the ADR, Rule or criterion it hits.
 
-Context docs (glossary, ADRs, Architecture doc, specs, Spec index) are read-only. Record a mismatch in Build notes; `ship` reconciles the docs.
+Context docs (glossary, ADRs, Architecture doc, specs, Spec index) are read-only. Never touch `rundown.md`: the orchestrator alone refreshes it, so no worktree carries its own copy back. Record a mismatch in Build notes; `ship` reconciles the docs.
 
 **Verify.** Merge the integration branch tip into your branch, then run the ticket's **Verify** steps, every step, in the order written. A failed step is fixed and re-run. A step that cannot run in this place (the ticket's Where is not here, a needed tool or service is missing) is a stop: commit nothing, write no Build notes, and report stopped with which step needs which place.
 
@@ -53,7 +53,8 @@ Context docs (glossary, ADRs, Architecture doc, specs, Spec index) are read-only
 
 1. Load the `code-review` skill and review the integration branch against main, covering what merged. Fix what it raises in a single implementer sub-agent, then merge it.
 2. On a real tracker, close each ticket that merged the way the tracker closes work, ticking its met acceptance criteria first. On a local tracker the merge already did it.
-3. Report the integration branch, the tickets built, and each open ticket with its reason: the stop an implementer reported, "blocked by NN", or "Prerequisite, needs you". Open tickets are never forced.
-4. Clean up every implementer worktree.
+3. When this run changed a ticket, load the `rundown` skill, once, after the last merge and after closing tickets on a real tracker. Leave its refreshed `rundown.md` uncommitted and local.
+4. Report the integration branch, the tickets built, and each open ticket with its reason: the stop an implementer reported, "blocked by NN", or "Prerequisite, needs you". Open tickets are never forced.
+5. Clean up every implementer worktree.
 
-When this run changed a ticket, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
+When a refresh happened, end with the next step `rundown` printed. When a guard skipped the refresh, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist." A run that changed no ticket loads nothing and prints neither ending.

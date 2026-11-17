@@ -16,7 +16,6 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 - **[review-spec](./review-spec/SKILL.md)**: Review a draft spec with reviewers who never saw the interview, on three axes: Cut, Gaps, Conflicts. One numbered list, accept by number.
 - **[to-tickets](./to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges and Run metadata (Model tier, effort, where, Verify), whether as text in a local file or as native blocking links on a real tracker.
 - **[builder](./builder/SKILL.md)**: Build one ticket with the right context and no more: prints its run line, drives `/tdd` with the ticket's Constraints, runs `/code-review` then the ticket's Verify steps before committing, and leaves Build notes for `ship`.
-- **[rundown](./rundown/SKILL.md)**: Write a checklist of copy-paste commands for a whole effort, in run order and grouped into waves that can run in parallel, rebuilt from ticket status on every run, in the syntax and model names of the harness you are in. Prints the next unchecked step.
 - **[ship](./ship/SKILL.md)**: Close a finished effort in one commit: update the Architecture doc to what now exists, mark the spec shipped, delete Scratch. Every question comes before the first write.
 - **[builder-spec](./builder-spec/SKILL.md)**: Build a whole spec on one integration branch: implementer sub-agents build the task graph's ready frontier in parallel under the `/builder` rules, a stopped ticket stays open while the rest continue, and it ends with `/code-review` and a report of open tickets.
 - **[wayfinder](./wayfinder/SKILL.md)**: Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on the issue tracker, resolved one at a time until the way to the destination is clear.
@@ -26,6 +25,7 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 
 Model- or user-reachable (rich trigger phrasing so the model can reach for them).
 
+- **[rundown](./rundown/SKILL.md)**: Create or rebuild the effort's checklist on request and print the next unchecked step. After resolving a ticket, `builder` refreshes an existing generated checklist.
 - **[prototype](./prototype/SKILL.md)**: Build a throwaway prototype to answer a design question: a single shareable HTML file for state/logic, or several toggleable UI variations.
 
 - **[diagnosing-bugs](./diagnosing-bugs/SKILL.md)**: Disciplined diagnosis loop for hard bugs and performance regressions: build a feedback loop that goes red on this bug → minimise → hypothesise → instrument → fix → regression-test.

@@ -63,7 +63,7 @@ The route most work travels. You have an idea and want it built.
 3. **`/to-spec`** turns the finished Interview log into a numbered spec in `docs/specs/` and adds its line to the Spec index. No interview.
 4. **`/review-spec`** (optional) reads the draft spec with reviewers who never saw the interview, on three axes: Cut, Gaps, Conflicts. Recommended after `/to-spec`, never required.
 5. **`/to-tickets`** splits the spec into tracer-bullet tickets, each with its **blocking edges** and **Run metadata** (Model tier, effort, where, Verify). It flips the spec from `draft` to `building`.
-6. **`/rundown`** writes the checklist of commands for the effort and prints the next unchecked step. Run it again whenever tickets change.
+6. **`/rundown`** creates or rebuilds the effort's checklist on request and prints the next unchecked step. Skills that change tickets (`/to-tickets`, `/wayfinder`, `/builder`, `/builder-spec`) refresh an existing generated Rundown when one exists, so the checklist stays current on its own.
 7. **Build**, in a fresh session per step:
    - **`/builder`** one ticket at a time, blockers first. Each ticket is self-contained, so the last one's context is disposable.
    - **`/builder-spec`** for the whole spec in one run. It reads the tickets as a **task graph**, runs implementer sub-agents across the ready **frontier** in parallel, and lands everything on one **integration branch**. A stopped ticket stays open and the rest continue; it ends with a code review and a report of open tickets.

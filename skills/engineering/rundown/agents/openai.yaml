@@ -1,5 +1,3 @@
 interface:
   display_name: "Rundown"
   short_description: "Checklist of copy-paste commands for a whole effort"
-policy:
-  allow_implicit_invocation: false

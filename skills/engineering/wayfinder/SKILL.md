@@ -20,6 +20,8 @@ Every map and ticket is an issue, so it has a **name**: its title. In everything
 
 The map is a single issue on this repo's issue tracker, labelled `wayfinder:map`, the canonical artifact. Its tickets are child issues of the map.
 
+The `**Scratch:**` line is the first line of the body, above `## Destination`. It names the Effort's Scratch folder, and on a real tracker it is the only link from the map to its Effort.
+
 The map is an **index**, not a store. It lists the decisions made and points at the tickets that hold their detail; a decision lives in exactly one place, its ticket, so the map never restates it, only gists it and links.
 
 **Where the map, its child tickets, blocking, and frontier queries physically live is tracker-specific.** The issue tracker should have been provided to you. If not, tell the user to run `/setup-skills`. Consult the tracker doc's "Wayfinding operations" section for how _this_ repo expresses them. If no tracker has been provided, default to the local-markdown tracker.
@@ -29,6 +31,8 @@ The map is an **index**, not a store. It lists the decisions made and points at 
 The whole map at low resolution, loaded once per session. Open tickets are **not** listed: they are open child issues, found by query.
 
 ```markdown
+**Scratch:** .scratch/<effort>/
+
 ## Destination
 
 <what reaching the end of this map looks like: the spec, decision, or change this effort is finding its way to. One or two lines; every session orients to it before choosing a ticket.>
@@ -64,7 +68,7 @@ Each ticket is a **child issue** of the map; the tracker's issue id is its ident
 
 Each ticket carries a `wayfinder:<type>` label, one of `research`, `prototype`, `interview`, `task` (see [Ticket Types](#ticket-types)). `wayfinder:` labels are the only labels a map and its tickets carry, never a triage label like `ready-for-agent`: they are decisions, not implementation work.
 
-Each ticket also carries two Run metadata lines under its type, `Model tier:` and `Effort:`, and nothing else from Run metadata (the tracker doc says where the type sits). Record the tier only, never a model name:
+Each ticket also carries two Run metadata lines under its type, `Model tier:` and `Effort:`, and nothing else from Run metadata (the tracker doc says where the type sits). Beside them it carries the map's `**Scratch:**` line, copied exactly. Record the tier only, never a model name:
 
 - **Model tier**: `heavy` for an interview on a decision that is hard to undo, `standard` for a narrower interview, research and prototype, `light` for a task.
 - **Effort**: `low`, `medium` or `high`. Default `medium`; `high` when the question is wide open, `low` when it is narrow and well framed.
@@ -115,10 +119,11 @@ User invokes with a loose idea.
 
 1. **Name the destination.** Load the `interview` and `domain-modeling` skills to pin down what this map is finding its way to: the spec, decision, or change. The destination fixes the scope, so it's settled first.
 2. **Map the frontier.** Interview again, **breadth-first** this time: fan out across the whole space rather than deep on any one thread, surfacing the open decisions and the first steps takeable now. **If this surfaces no fog** (the way to the destination is already clear, the whole journey small enough for one session), you don't need a map. Stop and ask the user how they'd like to proceed.
-3. **Create the map** (label `wayfinder:map`): Destination and Notes filled in, Decisions-so-far empty, the fog sketched into **Not yet specified**.
-4. **Create the tickets you can specify now** as child issues of the map, then wire blocking edges in a **second pass** (issues need ids before they can reference each other). Write cross-references in that pass too, with real ids: a placeholder `#<n>` auto-links to an unrelated issue. Wiring sorts them into the frontier and the blocked; everything you can't yet specify stays in the fog: the **Not yet specified** section.
-5. **Fire the research subagents.** For each `research` ticket you just created, spin up a subagent that loads the `research` skill to resolve it in parallel, capturing its findings on a throwaway `research/<name>` branch with a context pointer from the ticket. Push the branch but open no PR: it is never merged.
-6. Stop: charting is one session's work; it hand-resolves nothing. End with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
+3. **Name the Scratch folder.** Propose a short slug for `.scratch/<effort>/`, or reuse the one the user names, and use the folder the user settles on.
+4. **Create the map** (label `wayfinder:map`): the `**Scratch:** .scratch/<effort>/` line first, then Destination and Notes filled in, Decisions-so-far empty, the fog sketched into **Not yet specified**.
+5. **Create the tickets you can specify now** as child issues of the map, each with the `**Scratch:**` line, then wire blocking edges in a **second pass** (issues need ids before they can reference each other). Write cross-references in that pass too, with real ids: a placeholder `#<n>` auto-links to an unrelated issue. Wiring sorts them into the frontier and the blocked; everything you can't yet specify stays in the fog: the **Not yet specified** section.
+6. **Fire the research subagents.** For each `research` ticket you just created, spin up a subagent that loads the `research` skill to resolve it in parallel, capturing its findings on a throwaway `research/<name>` branch with a context pointer from the ticket. Push the branch but open no PR: it is never merged.
+7. Stop: charting is one session's work; it hand-resolves nothing. Pass a created ticket to `rundown` for its guarded refresh: load the `rundown` skill. When a refresh happened, end with the next step `rundown` printed. When a guard skipped it, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
 
 ### Work through the map
 
@@ -129,6 +134,6 @@ User invokes with a map (URL or number). A ticket is **optional**: without one, 
 3. Resolve it as the type its `wayfinder:<type>` label names (see [Ticket Types](#ticket-types)). Read the type from the label (or, on a local tracker, the `Type:` line), not from the question. **Zoom as needed**: fetch the full body of any related or closed ticket on demand; load whichever skills the `## Notes` block names. If in doubt, load the `interview` and `domain-modeling` skills.
 4. Record the resolution: post the answer as a **resolution comment**, **close** the issue, and **append a context pointer** to the map's Decisions-so-far.
 5. Add newly-surfaced tickets (create-then-wire); graduate any fog the answer has made specifiable, clearing each graduated patch from **Not yet specified** so it lives only as its new ticket. If the answer reveals that a ticket (this one or another) sits beyond the destination, **rule it out of scope** rather than resolving it on the route. If the decision invalidates other parts of the map, update or delete those tickets.
-6. End with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
+6. Pass the resolved ticket to `rundown` for its guarded refresh: load the `rundown` skill. When a refresh happened, end with the next step `rundown` printed. When a guard skipped it, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
 
 The user may run unblocked tickets in parallel, so expect other sessions to be editing the tracker concurrently.

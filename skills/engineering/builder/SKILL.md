@@ -48,5 +48,6 @@ Context docs (glossary, ADRs, Architecture doc, specs, Spec index) are read-only
 2. Run the ticket's **Verify** steps, every step, in the order written. A failed step is fixed and re-run. A step that cannot run in this place (the ticket's Where is not here, a needed tool or service is missing) stops the skill: commit nothing, write no Build notes, leave the ticket open, and say which step needs which place. With no ticket this step is the full test suite alone.
 3. Commit the work to the current branch.
 4. Write `## Build notes` on the ticket: appended to the ticket file on a local tracker, a comment on a real tracker. At most five one-line notes, covering Modules added or removed, Interface names changed, new cross-module calls, and the mismatches found. Empty is written as `none`. Then resolve the ticket the way the issue tracker closes work, ticking the acceptance criteria that are met first. Skip this step when there is no ticket.
+5. When this run changed a ticket, pass the resolved ticket to `rundown` for its guarded refresh, after Build notes and resolution. Load the `rundown` skill. Leave its refreshed `rundown.md` uncommitted and local, including on a real tracker.
 
-When this run changed a ticket, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
+When a refresh happened, end with the next step `rundown` printed. When a guard skipped the refresh, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist." A run that changed no ticket loads nothing and prints neither ending.

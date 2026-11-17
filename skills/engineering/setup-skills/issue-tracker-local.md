@@ -20,6 +20,8 @@ Issues for this repo live as markdown files in `.scratch/`. Specs are files in `
 
 **Status:** ready-for-agent
 
+**Scratch:** .scratch/<effort>/
+
 **Model tier:** standard
 **Effort:** medium
 **Where:** cli
@@ -47,8 +49,8 @@ Read the file at the referenced path. The user will normally pass the path or th
 
 Used by `/wayfinder`. The **map** is a file with one **child** file per ticket.
 
-- **Map**: `.scratch/<effort>/map.md` (the Notes / Decisions-so-far / Fog body).
-- **Child ticket**: `.scratch/<effort>/issues/NN-<slug>.md`, numbered from `01`, with the question in the body. A `Type:` line records the ticket type (`research`/`prototype`/`interview`/`task`), followed by `Model tier:` and `Effort:` lines; a `Status:` line records `claimed`/`resolved`.
+- **Map**: `.scratch/<effort>/map.md` (the Notes / Decisions-so-far / Fog body). It carries `**Scratch:** .scratch/<effort>/` as the first line of its body, above `## Destination`.
+- **Child ticket**: `.scratch/<effort>/issues/NN-<slug>.md`, numbered from `01`, with the question in the body. A `Type:` line records the ticket type (`research`/`prototype`/`interview`/`task`), followed by `Model tier:` and `Effort:` lines, with a `Scratch:` line beside them; a `Status:` line records `claimed`/`resolved`.
 - **Blocking**: a `Blocked by: NN, NN` line near the top. A ticket is unblocked when every file it lists is `resolved`.
 - **Frontier**: scan `.scratch/<effort>/issues/` for files that are open, unblocked, and unclaimed; first by number wins.
 - **Claim**: set `Status: claimed` and save before any work.
