@@ -39,6 +39,8 @@ Break the work into **tracer bullet** tickets.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
+For a sketchnote study set (a spec with numbered Learning objectives and a set folder), draft its Issues by [STUDY-SET.md](STUDY-SET.md): one content Issue per objective, then one assembly Issue.
+
 **Prerequisites come first.** Each entry in the spec's `## Prerequisites` section becomes its own ticket, marked `Prerequisite`, numbered before every other ticket, and listed in the blockers of every ticket that touches its Module, even one another blocker already gates. An entry that names no Module becomes no ticket; say so in one line: "Prerequisite '<entry>' names no Module; no ticket made."
 
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
@@ -74,6 +76,8 @@ Ask the user:
 - Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
 - Should any tickets be merged or split further?
 - Any tier, effort or where to change? (for example "3 light")
+
+For a sketchnote study set, replace the granularity and merge-or-split questions with one check: does each content Issue cover one whole objective and include all its images? Add one line: publishing ends in a handoff commit on the current branch, so that a fresh worktree has the rules, the spec and the Issues.
 
 For each missing environment, name it per ticket ("03 and 04 Verify against a deployed web app; the repo has no deploy config or local server") and show the proposed environment ticket beside it. Ask: add the ticket as a Prerequisite, or keep the Verify steps as written? On approval, mark the environment ticket `Prerequisite: yes`. When the user keeps the steps as written, publish them unchanged. With no missing environment, say nothing about environments.
 
@@ -156,14 +160,16 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 
 </issue-template>
 
-In either form, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
+In either form, avoid implementation file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
 
 ### 6. Flip the spec to `building`
 
 When the source is a spec file, change its `Status:` line from `draft` to `building`, and change `draft` to `building` in its line in the Spec index (`docs/specs/README.md`). When the status is anything other than `draft`, leave the spec and its index line as they are.
 
+For a sketchnote study set, then make the handoff commit in [STUDY-SET.md](STUDY-SET.md).
+
 ### 7. End
 
-When this run changed tickets and `.scratch/<effort>/rundown.md` exists with a first line of `# Rundown: <effort>` and a next line starting `Harness:` (a generated file), load `rundown` so it rebuilds the file from the new tickets. Load the `rundown` skill. End with the next step it printed.
+When this run changed tickets and `.scratch/<effort>/rundown.md` exists with a first line of `# Rundown: <effort>` and a next line starting `Harness:` (a generated file), pass a published ticket to the guarded refresh. Load the `rundown` skill. If it prints a next step, end with that step.
 
-With no generated `rundown.md`, end with this line, exactly: "Tickets changed. Run `/rundown` to refresh the checklist."
+If no refresh ran or its guard skipped the file, end with: "For build commands in dependency order, run `/starterkit:rundown <effort path>`."

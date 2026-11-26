@@ -1,0 +1,11 @@
+{
+  "ink": { "color": "#20303a", "width_mm": 0.5, "wobble_mm": 0.35, "unevenness": 0.5 },
+  "lettering": { "label_font": "Patrick Hand", "title_font": "Londrina Solid", "title_fill": "hatched", "title_outline_mm": 0.35 },
+  "hatch": { "angle_deg": -35, "spacing_mm": 1.1, "width_mm": 0.35 },
+  "shadow": { "dx_mm": 1.1, "dy_mm": 1.1, "color": "#20303a" },
+  "arrow": { "head": "filled", "length_mm": 3.5, "angle_deg": 25, "weight": 1 },
+  "cues": {
+    "water": { "color": "#a9d8ea", "treatment": "fill" },
+    "gate": { "color": "#8a4b1f", "treatment": "hatch" }
+  }
+}

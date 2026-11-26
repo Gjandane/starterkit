@@ -29,9 +29,10 @@ The guarded path updates only this file. Keep the refreshed file uncommitted. On
 - **Tickets.** On the requested path, use `.scratch/<effort>/issues/*.md` on a local tracker, or the parent issue or spec reference the user gives on a real tracker. On the guarded path, use only the existing file's `Source:`. Read the source's tickets, their `## Run` sections and their blocking links through the operations in `docs/agents/issue-tracker.md`. Record that same source in the generated file.
 - **Tier table.** `docs/agents/model-tiers.md`, the column of the harness you are running in.
 - **Base branch.** On Claude Code, the branch checked out now (`git branch --show-current`).
+- **Workspace.** The absolute project folder against which the ticket and spec paths resolve. For a local tracker, use the folder containing `.scratch/`; for a real tracker, use the current project's repository root. Verify that the local source resolves under this folder.
 - **Nothing else.** Skip the spec body and the code. The one exception: the section headings of `.scratch/<effort>/ideas.md`, to see whether it has a Picked section.
 
-Per ticket take: number, title, `Blocked by`, `Status`, `Type:` (wayfinder decision tickets only), Model tier, Effort, Where, Constraints, `**Prerequisite:** yes`. A field the ticket lacks prints as `not set`.
+Per ticket take: number, title, `Blocked by`, `Status`, `Type:` (wayfinder decision tickets only), Model tier, Effort, Where, Constraints, `**Prerequisite:** yes`, and the objective number and set folder of a sketchnote content Issue (a ticket with an `## Approved rules` section). A field the ticket lacks prints as `not set`.
 
 Derive each ticket's **Blocks**: the numbers of the tickets that list it in their `Blocked by`.
 
@@ -46,7 +47,7 @@ Name the harness you run in: Claude Code or Codex.
 | Claude Code | `/starterkit:<skill> <arg>` | Claude Code   |
 | Codex       | `$<skill> <arg>`            | Codex         |
 
-Print the model name from the table in place of the tier. With no tier table, print the bare tier (`heavy`, `standard`, `light`) and add one line under the title: "No model tier table. Run `/setup-skills` to map tiers to model names." Write the setup command and every other command in the file, `/rundown` included, in the harness's own syntax.
+Print the model name from the table in place of the tier. With no tier table, print the bare tier (`heavy`, `standard`, `light`), say "tiers" in place of "model names" in the harness line, and add this line after `Workspace:`: "No model tier table. Run `/setup-skills` to map tiers to model names." Write the setup command and every other command in the file, `/rundown` included, in the harness's own syntax.
 
 ### 4. Write the file
 
@@ -60,7 +61,7 @@ Sections in this order, which is the order the user runs them: each under a `##`
 ````
 
 - An empty `Blocked by` or `Blocks` prints `nothing`.
-- The note appears only for a ticket with Constraints (state them in a clause), a step only a human can do, or a Where of `desktop` (say the plugin must be installed in the desktop app, see the README Install section). A step with none of these has no note.
+- The note appears only for a ticket with Constraints (state them in a clause), a step only a human can do, a Where of `desktop` (say the plugin must be installed in the desktop app, see the README Install section), or a sketchnote content Issue ("Objective <N>, rules in `<set folder>`; cut a fresh worktree from `<base>` and merge its branch back before assembly", with the Base branch; when `git cat-file -e <base>:<set folder>/style.json` fails, the note ends "rules not committed on `<base>`" instead). A step with none of these has no note.
 - The command goes in its own code block, one command per block.
 - A done step is `[x]`.
 - Only steps with a ticket tick automatically from its status. Spec steps still collapse to done once build tickets exist; Retro and Ship stay unchecked.
@@ -77,19 +78,23 @@ A build step on Claude Code:
   ```
 ````
 
-**Title, harness and source lines.** Keep these three lines adjacent, with no blank lines between them:
+**Header.** Keep title, harness and source as the first three lines, followed by Workspace, with no blank lines between them:
 
 ```markdown
 # Rundown: <effort>
 Harness: <Claude Code or Codex>. Commands in its syntax, model names from its column of the tier table.
 Source: <issues folder path, or parent issue or spec reference>
+Workspace: <absolute project folder>
 ```
 
-Use the issues folder path on a local tracker, or the parent issue or spec reference on a real tracker. With no tier table, say "tiers" in place of "model names" in the harness line and add the setup line below the source line.
+Use the issues folder path on a local tracker, or the parent issue or spec reference on a real tracker.
+
+`Workspace:` is a local handoff pointer, not a portable path to commit. The first three lines keep their existing shape so guarded refreshes accept older generated files too.
 
 **Rules.** A short list:
 
 - One session per step: start a fresh session before each command, unless the step says "same session".
+- Open the folder named by `Workspace:` as the project before starting each session; commands below use paths relative to it.
 - Set the model and effort before you paste the command.
 - Steps marked "interview" are conversations. Run one at a time.
 - The tickets of one wave do not block each other. Run them one at a time, or all at once. On Claude Code the last sentence reads: "To run a wave all at once, paste its launch block into one session; it opens a session per ticket." On Codex: "To run a wave all at once, give each ticket its own session."
@@ -136,6 +141,6 @@ With no build tickets, write the heading and one placeholder line: "No tickets y
 
 ### 5. Print
 
-Print the first unchecked step of the file, its command included, and the path of the file. When that step sits under a launch block, print the launch block in its place. When every box is checked, say so.
+Print the Workspace folder, then the first unchecked step of the file, its command included, and the absolute path of the file. When that step sits under a launch block, print the launch block in its place. When every box is checked, say so.
 
 Done when the file is written and the next step or launch block is printed.

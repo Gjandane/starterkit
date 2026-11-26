@@ -1,0 +1,55 @@
+<svg class="board" viewBox="0 0 186 273">
+  <defs>
+    <symbol id="boat" viewBox="0 0 30 24">
+      <path class="ink" fill="#ffffff" d="M2 14 L28 14 L24 22 L6 22 Z"/>
+      <rect class="ink" fill="#ffffff" x="8" y="7" width="11" height="7"/>
+      <path class="ink" d="M22 14 L22 3"/>
+    </symbol>
+  </defs>
+
+  <text class="title shadow" x="2" y="22" font-size="21">How a lock lifts a boat</text>
+
+  <g transform="translate(1 32)">
+    <rect class="ink shadow" x="0" y="0" width="182" height="74"/>
+    <text x="5" y="11" font-size="7">1 The boat floats in at the low level</text>
+    <polygon class="ink" data-cue="water" points="4,50 120,50 120,68 4,68"/>
+    <polygon class="ink" data-cue="water" points="128,28 178,28 178,46 128,46"/>
+    <rect class="ink" data-cue="gate" x="121" y="22" width="6" height="46"/>
+    <line class="ink dashed" x1="62" y1="30" x2="62" y2="66"/>
+    <use href="#boat" x="22" y="32" width="30" height="24"/>
+    <path class="ink arrow" d="M76 42 C86 39 98 39 108 42"/>
+    <text x="36" y="26" font-size="5.5">low gate open</text>
+    <text x="86" y="62" font-size="5.5">chamber</text>
+    <text x="136" y="40" font-size="5.5">high river</text>
+  </g>
+
+  <g transform="translate(1 113)">
+    <rect class="ink shadow" x="0" y="0" width="182" height="74"/>
+    <text x="5" y="11" font-size="7">2 Gates shut, water runs down into the chamber</text>
+    <polygon class="ink" data-cue="water" points="4,50 60,50 60,68 4,68"/>
+    <polygon class="ink" data-cue="water" points="66,40 120,40 120,68 66,68"/>
+    <polygon class="ink" data-cue="water" points="128,28 178,28 178,46 128,46"/>
+    <rect class="ink" data-cue="gate" x="60" y="26" width="6" height="42"/>
+    <rect class="ink" data-cue="gate" x="121" y="22" width="6" height="46"/>
+    <use href="#boat" x="78" y="22" width="30" height="24"/>
+    <path class="ink arrow" data-weight="1.4" d="M150 48 C148 64 136 64 112 60"/>
+    <path class="ink arrow" d="M72 60 L72 46"/>
+    <text x="136" y="68" font-size="5.5">open sluice</text>
+    <text x="10" y="61" font-size="5.5">low river</text>
+    <text x="76" y="56" font-size="5.5">rising</text>
+  </g>
+
+  <g transform="translate(1 194)">
+    <rect class="ink shadow" x="0" y="0" width="182" height="74"/>
+    <text x="5" y="11" font-size="7">3 Levels match, so the boat leaves</text>
+    <polygon class="ink" data-cue="water" points="4,50 60,50 60,68 4,68"/>
+    <polygon class="ink" data-cue="water" points="66,28 178,28 178,46 120,46 120,68 66,68"/>
+    <rect class="ink" data-cue="gate" x="60" y="22" width="6" height="46"/>
+    <line class="ink dashed" x1="124" y1="18" x2="124" y2="44"/>
+    <use href="#boat" x="86" y="10" width="30" height="24"/>
+    <path class="ink arrow" d="M132 22 C142 18 154 18 164 22"/>
+    <text x="76" y="56" font-size="5.5">chamber full</text>
+    <text x="128" y="57" font-size="5.5">high gate open</text>
+    <text x="10" y="61" font-size="5.5">low river</text>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 {
   "name": "starterkit",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Interviews, spec/ticket flows, TDD, code review, domain modelling and more.",
   "author": {
     "name": "gjandane",
@@ -45,9 +45,11 @@
     "./skills/engineering/wizard",
     "./skills/productivity/brainstorm",
     "./skills/productivity/interview-me",
+    "./skills/productivity/inking",
     "./skills/productivity/interview",
     "./skills/productivity/handoff",
     "./skills/productivity/larper",
+    "./skills/productivity/sketchnotes",
     "./skills/productivity/teach",
     "./skills/productivity/to-questionnaire",
     "./skills/productivity/wait-what",

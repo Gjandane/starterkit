@@ -6,7 +6,7 @@ Skills are organized into bucket folders under `skills/`:
 - `productivity/`: daily non-code workflow tools
 - `misc/`: kept around but rarely used, not promoted
 
-`scripts/check.sh` enforces the mechanical rules (manifest and README placement, invocation flags, chain wording, em-dashes, old names) and names each broken one; the pre-commit hook runs it with `claude plugin validate . --strict`. After adding or renaming a skill, also run `scripts/load-test.sh`. Review standards live in [CODING_STANDARDS.md](./CODING_STANDARDS.md).
+`scripts/check.sh` enforces the mechanical rules (manifest and README placement, invocation flags, chain wording, em-dashes, old names) and names each broken one; the pre-commit hook runs it with `claude plugin validate . --strict`. After adding or renaming a skill, also run `scripts/load-test.sh`. After editing the `inking` skill's scripts or fonts, also run `python scripts/test_inking.py`. A Verify step that needs a real skill run drives it with `scripts/drive-skill.sh`, one turn per call. Review standards live in [CODING_STANDARDS.md](./CODING_STANDARDS.md).
 
 The plugin ships exactly the **promoted** buckets (`engineering/`, `productivity/`): each promoted skill is in `.claude-plugin/plugin.json`'s `skills` array and linked to its `SKILL.md` from the top-level `README.md` and its bucket `README.md`, with a one-line description. Those READMEs group entries into **User-invoked** and **Model-invoked**; `misc/` skills appear only in the flat `misc/README.md`.
 

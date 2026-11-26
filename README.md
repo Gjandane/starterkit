@@ -117,7 +117,7 @@ Skills split by who can start them. **User-invoked** skills run only when you ty
 - **[tdd](./skills/engineering/tdd/SKILL.md).** Red-green-refactor, one small slice at a time.
 - **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md).** Keep the project glossary honest. Challenges fuzzy terms, tests them with edge cases, and updates `GLOSSARY.md` and ADRs inline.
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md).** Rules and vocabulary for deep modules, meaning a lot of behaviour behind a small interface that you can test through that interface.
-- **[code-review](./skills/engineering/code-review/SKILL.md).** Two separate reviews of the diff since a commit or branch. Standards checks it against the repo's coding standards and common code smells. Spec checks it against the ticket or spec it came from.
+- **[code-review](./skills/engineering/code-review/SKILL.md).** Two separate reviews of committed changes since a commit or branch, or uncommitted work including new files. Standards checks it against the repo's coding standards and common code smells. Spec checks it against the ticket or spec it came from.
 - **[pr](./skills/engineering/pr/SKILL.md).** The shape of a pull request body. A small visual of the change, before/after proof, and a note on how hard it is to undo and how much could break.
 - **[wizard](./skills/engineering/wizard/SKILL.md).** Generate an interactive bash script that walks you through steps only a human can do, like setting up credentials or clicking through a third-party dashboard.
 
@@ -129,12 +129,14 @@ Skills split by who can start them. **User-invoked** skills run only when you ty
 - **[interview-me](./skills/productivity/interview-me/SKILL.md).** Get interviewed about a plan or design until every open decision is settled. Saves no files.
 - **[handoff](./skills/productivity/handoff/SKILL.md).** Compact the current conversation into a handoff document so another agent can continue.
 - **[larper](./skills/productivity/larper/SKILL.md).** Draft a short LinkedIn post about your repo for readers who don't code, after a short interview on what it says and which insights go in. Printed in chat, never posted.
+- **[sketchnotes](./skills/productivity/sketchnotes/SKILL.md).** Plan illustrated study notes from a topic or your Markdown files. A short interview on your goal, what you know and what you must see, then an outline of each learning objective with its sources, study question and proposed drawing. A saved House style then draws one new sample of the hardest passage. A fresh design gives three proposals to compare, each in its own Look and structure. With a reference image, the three try its Look in three structures, once you approve its palette, adjusted where two colours would print too alike in greyscale. The sample you approve sets the drawing rules for the whole set, and you can save a fresh design's rules under a name for the next subject.
 - **[teach](./skills/productivity/teach/SKILL.md).** Learn a new skill or concept over several sessions, with the current folder as the lesson workspace.
 - **[to-questionnaire](./skills/productivity/to-questionnaire/SKILL.md).** Turn a decision only someone else can make into a Markdown questionnaire for them to fill in.
 - **[wait-what](./skills/productivity/wait-what/SKILL.md).** Run it when a reply doesn't make sense. The agent explains again with the context you were missing, using your glossary's words.
 
 **Model-invoked**
 
+- **[inking](./skills/productivity/inking/SKILL.md).** Drawing tools for printable study pages, used by `sketchnotes` and `builder`. Draws a page in your style rules with the fonts it ships, renders it at paper size with Chrome or Edge, finds ink that crosses a label, and assembles the pages into one study-set PDF.
 - **[interview](./skills/productivity/interview/SKILL.md).** The interview loop itself, used by `interview-me`, `interview-with-docs`, `triage`, `wayfinder` and `improve-codebase-architecture`.
 - **[writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md).** How to write skills, `AGENTS.md`/`CLAUDE.md` and other docs an agent reads.
 
@@ -150,4 +152,4 @@ Rules for editing skills are in [AGENTS.md](./AGENTS.md). Run `bash scripts/chec
 
 ## License
 
-MIT, same as upstream. See [LICENSE](./LICENSE).
+MIT, same as upstream. See [LICENSE](./LICENSE). The fonts in `skills/productivity/inking/fonts/` are under the SIL Open Font License, each with its licence beside it.

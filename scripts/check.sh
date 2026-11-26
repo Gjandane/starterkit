@@ -16,6 +16,17 @@ EMDASH=$(printf '\xe2\x80\x94')
 # Frontmatter value of a key in a SKILL.md, empty if absent.
 fm() { awk -v k="$2" 'NR==1&&$0!="---"{exit} NR>1&&$0=="---"{exit} index($0,k":")==1{sub(k": *","");print;exit}' "$1"; }
 
+# Every file the checks read, minus .git and node_modules. In a git checkout:
+# tracked plus untracked-not-ignored, so session worktrees under
+# .claude/worktrees/ stay out. Outside git: every file.
+all_files() {
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    git ls-files -co --exclude-standard -- . ':(exclude).claude/worktrees'
+  else
+    find . -type f -not -path './.git/*' | sed 's|^\./||'
+  fi | grep -Ev '(^|/)node_modules/' | while IFS= read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done | sort
+}
+
 declare -A INVOKED # skill name -> user | model
 MANIFEST="$(cat .claude-plugin/plugin.json 2>/dev/null)"
 
@@ -52,9 +63,8 @@ for f in "${SKILLS[@]}"; do
   fi
 done
 
-# Text files to scan: everything tracked-looking, minus .git and licence text.
-mapfile -t TEXT < <(find . -type f \( -name '*.md' -o -name '*.sh' -o -name '*.yaml' -o -name '*.json' \) \
-  -not -path './.git/*' -not -path '*/node_modules/*' -not -name LICENSE | sed 's|^\./||' | sort)
+# Text files to scan, minus licence text.
+mapfile -t TEXT < <(all_files | grep -E '\.(md|sh|yaml|json)$' | grep -Ev '(^|/)LICENSE$')
 
 for f in "${TEXT[@]}"; do
   # Rule: no em-dash anywhere in prose or code comments
@@ -94,7 +104,7 @@ done
 while IFS= read -r f; do
   case "$f" in LICENSE|README.md|scripts/check.sh) continue ;; esac
   grep -Eqi 'matt[- ]?pocock|aihero' "$f" && fail "$f" "names the origin repo or author (matt pocock / aihero)"
-done < <(find . -type f -not -path './.git/*' -not -path '*/node_modules/*' | sed 's|^\./||' | sort)
+done < <(all_files)
 
 if [ "$FAILS" -gt 0 ]; then echo "$FAILS check(s) failed"; exit 1; fi
 echo "all checks passed"

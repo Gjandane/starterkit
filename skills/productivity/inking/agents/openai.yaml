@@ -1,0 +1,3 @@
+interface:
+  display_name: "Inking"
+  short_description: "Draw, render and check printable sketchnote pages"

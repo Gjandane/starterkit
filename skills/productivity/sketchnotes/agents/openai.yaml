@@ -1,0 +1,5 @@
+interface:
+  display_name: "Sketchnotes"
+  short_description: "Plan illustrated study notes and approve a print sample"
+policy:
+  allow_implicit_invocation: false

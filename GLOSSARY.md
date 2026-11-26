@@ -18,11 +18,21 @@ A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* 
 **Triage role**:
 A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
 
+**Learning objective**:
+What a learner should be able to explain or do after studying part of a topic.
+
+**House style**:
+A learner's reusable drawing and lettering principles for sketchnotes. Each page has its own composition and drawings for the subject it explains.
+
+**Look**:
+How a sketchnote is drawn: its palette, lettering, ink, shadows, arrows and cue treatment. A page's layout is its structure, which is not part of the Look.
+
 ## Relationships
 
 - An **Issue tracker** holds many **Issues**
 - An **Issue** carries one **Triage role** at a time
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
+- In a sketchnote set, one **Issue** covers one **Learning objective**. The objective may span several pages.
 
 ## Flagged ambiguities
 

@@ -1,9 +1,9 @@
 ---
 name: code-review
-description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
+description: "Review committed changes since a fixed point or uncommitted work, including new files, along two axes: Standards and Spec. Use when reviewing a branch, PR, work in progress, or a builder's changes before commit. Runs both reviews in parallel sub-agents and reports them side by side."
 ---
 
-Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
+Two-axis review of committed changes or the working tree:
 
 - **Standards**: does the code conform to this repo's documented coding standards?
 - **Spec**: does the code faithfully build the originating issue / spec?
@@ -14,20 +14,21 @@ The issue tracker should have been provided to you. If not, tell the user to run
 
 ## Process
 
-### 1. Pin the fixed point
+### 1. Pin the scope
 
-Whatever the user said is the fixed point (a commit SHA, branch name, tag, `main`, `HEAD~5`, etc.). If they didn't specify one, ask for it.
+Choose the mode from the request or caller:
 
-Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.
+- **Committed**: a branch, PR or "since X" request. Resolve the supplied fixed point, then capture `git diff <fixed-point>...HEAD` and `git log <fixed-point>..HEAD --oneline`. With no fixed point, ask for one.
+- **Working tree**: work in progress or a builder's pre-commit review. The base is `HEAD`, unless the caller supplies another base. Resolve it, then capture `git diff <base> --` for tracked changes, staged and unstaged together, and `git ls-files --others --exclude-standard` for new files. Read every new file in scope. A new file counts as a change even when the tracked diff is empty. No commit list is needed.
 
-Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here, not inside two parallel sub-agents.
+When the caller supplies paths, apply them after `--` to both commands. Record the exact commands, base SHA, changed paths and new-file list once. Pass the same scope to both reviewers, leaving unrelated edits outside it. A bad ref or no changes in scope stops here with an explanation, before spawning reviewers.
 
 ### 2. Identify the spec source
 
 Look for the originating spec, in this order:
 
-1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.), fetched via the workflow in the tracker doc.
-2. A path the user passed as an argument.
+1. The ticket, spec or described work supplied by the caller.
+2. Issue references in committed-mode commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.), fetched via the workflow in the tracker doc.
 3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
 4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent will skip and report "no spec available".
 
@@ -57,17 +58,19 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 
 ### 4. Spawn both sub-agents in parallel
 
-Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
+Issue both sub-agent calls together, in the foreground, and aggregate the reports they return. Start both on the `standard` tier: the model `docs/agents/model-tiers.md` maps it to.
+
+Complete this step when every applicable reviewer has returned: both with a spec, Standards alone when Spec was explicitly skipped below. This applies to every diff size.
 
 **Standards sub-agent prompt** should include:
 
-- The full diff command and commit list.
+- The recorded review scope: exact commands, base SHA, changed paths, new-file list, and commit list in committed mode. Read new files as additions; inspect tracked changes through the diff.
 - The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full (the sub-agent has no other access to it).
 - The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** should include:
 
-- The diff command and commit list.
+- The same recorded review scope and new-file reading instructions as the Standards sub-agent.
 - The path or fetched contents of the spec.
 - The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
 

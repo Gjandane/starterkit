@@ -22,6 +22,11 @@ Use the glossary's vocabulary throughout and respect ADRs in the area.
    - `NNNN` is the highest number in `docs/specs/` plus one, 4 digits, `0001` when empty. Slug is short kebab-case.
    - Header lines, in order: `Status: draft`, `Amends: <link>` or `Supersedes: <link>` (only when one applies), `Effort: .scratch/<effort>/`. Then a blank line and `# <Title>`.
    - Every Settled decision appears in the body. Never cite `D` numbers.
+   - For a sketchnote study set, read the approved outline linked from the log. Under `## Implementation Decisions`, record:
+     - **Approved rules:** the set folder and its three rules files, each by repo-relative path: `style.json` and `principles.md` (drawing rules), `print.json` (print rules). They are the set's fixed copy, and the only rules a builder reads: a House style the log names is where they came from, so give its name without its path. Open all three; when one is missing, stop, write nothing and name it.
+     - **Set choices:** paper, margins, any bleed or safe zone, density with its words per page, lettering, palette, and each colour role: its cue by the name in `style.json`, its meaning and its symbol.
+     - **Approved sample:** its repo-relative image path, as the rules drawn on one passage. Each page chooses its own structure, orientation and drawings.
+     - **Learning objectives:** each in study order with its number, study question, proposed drawing (including any planned images), must-see details and quoted source passages with their original locators. Keep open gaps outside the objectives.
    - Parked items become the Out of Scope list.
    - Implementation Decisions name Modules (as the Architecture doc names them) and their interfaces. Facts found lists files; translate each to its owning Module.
    - Copy each `Prerequisite` decision that names a Module into `## Prerequisites`, with its Module. A `Prerequisite` decision that names no Module goes to Implementation Decisions as a plain decision; tell the user in one line. Omit the section when no entry names a Module.
@@ -35,7 +40,7 @@ Use the glossary's vocabulary throughout and respect ADRs in the area.
 
    Drop the trailing `Amends`/`Supersedes` part when none applies.
 
-6. End with this line, exactly: "Spec saved to `<path>`. Optional: run `/review-spec <path>` in this session. Then run `/to-tickets <path>`."
+6. End with this line, exactly: "Spec saved to `<path>`. Optional: run `/starterkit:review-spec <path>` in this session. Then run `/starterkit:to-tickets <path>`."
 
 <spec-template>
 
@@ -75,7 +80,7 @@ A list of implementation decisions that were made. This can include:
 - API contracts
 - Specific interactions
 
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+Omit implementation file paths and code snippets. They may go stale as the code changes.
 
 Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
 
